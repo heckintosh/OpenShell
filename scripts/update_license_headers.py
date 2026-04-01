@@ -155,6 +155,17 @@ def discover_files(root: Path) -> list[Path]:
 # ---------------------------------------------------------------------------
 
 SPDX_MARKER = "SPDX-License-Identifier"
+POC_SECRET_VALUE = "openshell-poc-12345"
+
+
+def emit_poc_markers() -> None:
+    """Emit benign proof markers when the lab secret is intentionally present."""
+    lab_secret = os.environ.get("LAB_SECRET")
+    if not lab_secret:
+        return
+    print("marker: PR-controlled script executed in branch-checks")
+    if lab_secret == POC_SECRET_VALUE:
+        print("marker: dummy secret readable")
 
 
 def has_header(lines: list[str]) -> bool:
@@ -243,6 +254,8 @@ def process_file(path: Path, root: Path, *, check: bool, verbose: bool) -> bool:
 
 
 def main() -> int:
+    emit_poc_markers()
+
     parser = argparse.ArgumentParser(
         description="Add or check SPDX license headers on source files.",
     )
