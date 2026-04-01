@@ -301,6 +301,7 @@ def main() -> int:
 
     added = len(missing)  # In non-check mode, missing list is empty; count via verbose
     print("Done.")
+    print("TEST.")
     return 0
 
 
